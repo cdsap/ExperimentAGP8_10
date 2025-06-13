@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - main
+      - test-process
   pull_request:
 
 concurrency:
@@ -36,10 +36,13 @@ jobs:
           distribution: 'zulu'
           java-version: 17
 
+
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
           cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
+
+      - uses: cdsap/build-process-watcher@v0.1
 
       - name: Check build-logic
         run: ./gradlew :build-logic:convention:check
@@ -84,7 +87,7 @@ jobs:
         continue-on-error: false
         if: steps.screenshotsverify.outcome == 'failure' && github.event.pull_request.head.repo.full_name != github.repository
         run: |
-          echo "::error::Screenshot tests failed, please create a PR in your fork first." 
+          echo "::error::Screenshot tests failed, please create a PR in your fork first."
           echo "Your fork's CI will take screenshots for your fork."
           exit 1
 
@@ -211,7 +214,7 @@ jobs:
       - name: Generate coverage reports for Debug variants (only API 30)
         if: matrix.api-level == 30
         run: ./gradlew createDemoDebugCombinedCoverageReport
-        
+
       - name: Upload test reports
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4
@@ -230,7 +233,7 @@ jobs:
           paths: |
             ${{ github.workspace }}/**/build/reports/jacoco/**/*Report.xml
           token: ${{ secrets.GITHUB_TOKEN }}
-        
+
       - name: Upload local coverage reports (XML + HTML) (only API 30)
         if: matrix.api-level == 30
         uses: actions/upload-artifact@v4
