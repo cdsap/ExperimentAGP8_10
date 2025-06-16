@@ -69,3 +69,23 @@ plugins {
 gcReport {
     logs = listOf("gradle_gc.log", "kotlin_gc.log")
 }
+
+
+allprojects {
+    tasks.withType<Test>().configureEach {
+        useJUnitPlatform()
+//        inputs.files("/Users/inakivillar/experiments/androidify/androidify/feature/creation/build/intermediates/apk_for_local_test/debugUnitTest/packageDebugUnitTestForUnitTest/apk-for-local-test.ap_")
+//        systemProperty("robolectric.logging.enabled","true")
+//        systemProperty("robolectric.logging","stdout")
+//
+//        systemProperty("g",
+//            project.relativePath("${project.layout.buildDirectory.get().asFile.toPath()}/file_log"))
+        develocity.testDistribution {
+            enabled.set(true)
+            remoteExecutionPreferred.set(true)
+            maxLocalExecutors.set(0)
+            //requirements.set(setOf("os=linux", "jdk=17"))
+        }
+
+    }
+}

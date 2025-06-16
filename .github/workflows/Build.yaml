@@ -42,7 +42,48 @@ jobs:
         with:
           cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
 
-      - uses: cdsap/build-process-watcher@v0.1
+      - name: Push new Dependency Guard baselines if available
+        uses: stefanzweifel/git-auto-commit-action@v5
+        if: steps.dependencyguard_baseline.outcome == 'success'
+        with:
+          file_pattern: '**/dependencies/*.txt'
+          disable_globbing: true
+          commit_message: "🤖 Updates baselines for Dependency Guard"
+
+      - name: Run all local screenshot tests (Roborazzi)
+        id: screenshotsverify
+        continue-on-error: true
+        run: ./gradlew verifyRoborazziDemoDebug
+        env:
+            DEVELOCITY_ACCESS_KEY: ${{ secrets.DV_ACCESS_KEY }}
+
+
+      - name: Prevent pushing new screenshots if this is a fork
+        id: checkfork_screenshots
+        continue-on-error: false
+        if: steps.screenshotsverify.outcome == 'failure' && github.event.pull_request.head.repo.full_name != github.repository
+        run: |
+          echo "::error::Screenshot tests failed, please create a PR in your fork first."
+          echo "Your fork's CI will take screenshots for your fork."
+          exit 1
+
+      # Runs if previous job failed
+      - name: Generate new screenshots if verification failed and it's a PR
+        id: screenshotsrecord
+        if: steps.screenshotsverify.outcome == 'failure' && github.event_name == 'pull_request'
+        run: |
+          ./gradlew recordRoborazziDemoDebug
+        env:
+            DEVELOCITY_ACCESS_KEY: ${{ secrets.DV_ACCESS_KEY }}
+
+
+      - name: Push new screenshots if available
+        uses: stefanzweifel/git-auto-commit-action@v5
+        if: steps.screenshotsrecord.outcome == 'success'
+        with:
+          file_pattern: '*/*.png'
+          disable_globbing: true
+          commit_message: "🤖 Updates screenshots"
 
       # Run local tests after screenshot tests to avoid wrong UP-TO-DATE. TODO: Ignore screenshots.
       - name: Run local tests
@@ -68,18 +109,3 @@ jobs:
         with:
           name: screenshot-test-results
           path: '**/build/outputs/roborazzi/*_compare.png'
-
-      - name: Upload lint reports (HTML)
-        if: ${{ !cancelled() }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: lint-reports
-          path: '**/build/reports/lint-results-*.html'
-
-      - name: Upload lint reports (SARIF)
-        if: ${{ !cancelled() && hashFiles('**/*.sarif') != '' }}
-        uses: github/codeql-action/upload-sarif@v3
-        with:
-          sarif_file: './'
-
-
