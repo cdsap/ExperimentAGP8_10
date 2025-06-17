@@ -18,6 +18,7 @@ plugins {
     alias(libs.plugins.nowinandroid.android.library.jacoco)
     alias(libs.plugins.nowinandroid.hilt)
     id("kotlinx-serialization")
+    id("tech.apter.junit5.jupiter.robolectric-extension-gradle-plugin") version ("0.9.0")
 }
 
 android {
