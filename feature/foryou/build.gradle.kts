@@ -40,3 +40,10 @@ dependencies {
     androidTestImplementation(libs.bundles.androidx.compose.ui.test)
     androidTestImplementation(projects.core.testing)
 }
+tasks.withType<Test>().configureEach {
+    inputs.files(project.layout.projectDirectory.files("src/test/screenshots"))
+}
+
+
+
+// inputs.files("/Users/inakivillar/experiments/androidify/androidify/feature/creation/build/intermediates/apk_for_local_test/debugUnitTest/packageDebugUnitTestForUnitTest/apk-for-local-test.ap_")
