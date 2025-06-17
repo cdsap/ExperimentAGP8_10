@@ -19,6 +19,7 @@ plugins {
     alias(libs.plugins.nowinandroid.android.library.compose)
     alias(libs.plugins.nowinandroid.android.library.jacoco)
     alias(libs.plugins.roborazzi)
+    id("tech.apter.junit5.jupiter.robolectric-extension-gradle-plugin") version ("0.9.0")
 }
 
 android {
