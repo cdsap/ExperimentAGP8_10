@@ -36,7 +36,7 @@ dependencies {
     testImplementation(libs.robolectric)
     testImplementation(projects.core.testing)
     testDemoImplementation(projects.core.screenshotTesting)
-
+    testImplementation("org.junit.vintage:junit-vintage-engine:5.12.2")
     androidTestImplementation(libs.bundles.androidx.compose.ui.test)
     androidTestImplementation(projects.core.testing)
 }
