@@ -53,7 +53,7 @@ jobs:
       - name: Run all local screenshot tests (Roborazzi)
         id: screenshotsverify
         continue-on-error: true
-        run: ./gradlew verifyRoborazziDemoDebug
+        run: ./gradlew :core:data:testDemoDebugUnitTest -Proborazzi.test.verify=true
         env:
             DEVELOCITY_ACCESS_KEY: ${{ secrets.DV_ACCESS_KEY }}
 

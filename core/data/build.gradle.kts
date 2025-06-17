@@ -38,7 +38,7 @@ dependencies {
 
     implementation(projects.core.analytics)
     implementation(projects.core.notifications)
-
+    testImplementation("org.junit.vintage:junit-vintage-engine:5.12.2")
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.kotlinx.serialization.json)
     testImplementation(projects.core.datastoreTest)
