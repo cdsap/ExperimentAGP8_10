@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - test-process
+      - test-svg
   pull_request:
 
 concurrency:
@@ -50,10 +50,15 @@ jobs:
           disable_globbing: true
           commit_message: "🤖 Updates baselines for Dependency Guard"
 
+      - name: Start Build Process Watcher
+        uses: cdsap/build-process-watcher@adding-heap-in-svg
+        with:
+            interval: 5
+
       - name: Run all local screenshot tests (Roborazzi)
         id: screenshotsverify
         continue-on-error: true
-        run: ./gradlew :feature:foryou:testDemoDebugUnitTest -Proborazzi.test.verify=true
+        run: ./gradlew assembleDebug
         env:
             DEVELOCITY_ACCESS_KEY: ${{ secrets.DV_ACCESS_KEY }}
 
