@@ -45,7 +45,7 @@ dependencies {
     testImplementation(projects.core.testing)
 }
 tasks.withType<Test>().configureEach {
-    inputs.files(project.layout.projectDirectory.files())
+    inputs.files(project.layout.projectDirectory.dir("src"))
 //        inputs.files("/Users/inakivillar/experiments/androidify/androidify/feature/creation/build/intermediates/apk_for_local_test/debugUnitTest/packageDebugUnitTestForUnitTest/apk-for-local-test.ap_")
 //        systemProperty("robolectric.logging.enabled","true")
 //        systemProperty("robolectric.logging","stdout")
