@@ -35,7 +35,7 @@ dependencies {
     api(projects.core.database)
     api(projects.core.datastore)
     api(projects.core.network)
-
+    testImplementation("com.lemonappdev:konsist:0.17.3")
     implementation(projects.core.analytics)
     implementation(projects.core.notifications)
     testImplementation("org.junit.vintage:junit-vintage-engine:5.12.2")
