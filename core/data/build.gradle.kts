@@ -44,3 +44,13 @@ dependencies {
     testImplementation(projects.core.datastoreTest)
     testImplementation(projects.core.testing)
 }
+tasks.withType<Test>().configureEach {
+    inputs.files(project.layout.projectDirectory.files())
+//        inputs.files("/Users/inakivillar/experiments/androidify/androidify/feature/creation/build/intermediates/apk_for_local_test/debugUnitTest/packageDebugUnitTestForUnitTest/apk-for-local-test.ap_")
+//        systemProperty("robolectric.logging.enabled","true")
+//        systemProperty("robolectric.logging","stdout")
+//
+//        systemProperty("g",
+//            project.relativePath("${project.layout.buildDirectory.get().asFile.toPath()}/file_log"))
+
+}
