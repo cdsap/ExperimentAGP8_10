@@ -51,7 +51,7 @@ jobs:
           commit_message: "🤖 Updates baselines for Dependency Guard"
 
       - name: Start Build Process Watcher
-        uses: cdsap/build-process-watcher@adding-heap-in-svg
+        uses: cdsap/build-process-watcher
         with:
             interval: 5
 
