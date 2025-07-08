@@ -26,6 +26,8 @@ plugins {
     alias(libs.plugins.baselineprofile)
     alias(libs.plugins.roborazzi)
     alias(libs.plugins.kotlin.serialization)
+    id("com.github.ben-manes.versions") version "0.52.0"
+    id("org.sonarqube") version "4.0.0.2929"
 }
 
 android {
@@ -35,7 +37,8 @@ android {
         versionName = "0.1.2" // X.Y.Z; X = Major, Y = minor, Z = Patch level
 
         // Custom test runner to set up Hilt dependency graph
-        testInstrumentationRunner = "com.google.samples.apps.nowinandroid.core.testing.NiaTestRunner"
+        testInstrumentationRunner =
+            "com.google.samples.apps.nowinandroid.core.testing.NiaTestRunner"
     }
 
     buildTypes {
@@ -130,7 +133,7 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test)
     androidTestImplementation(libs.hilt.android.testing)
     androidTestImplementation(libs.kotlin.test)
-
+    testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.13.1")
     baselineProfile(projects.benchmarks)
 }
 
@@ -145,4 +148,11 @@ baselineProfile {
 
 dependencyGuard {
     configuration("prodReleaseRuntimeClasspath")
+}
+
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
+    develocity.predictiveTestSelection {
+        enabled.set(true)
+    }
 }
