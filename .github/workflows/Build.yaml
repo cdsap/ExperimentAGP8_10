@@ -58,6 +58,6 @@ jobs:
       - name: Run all local screenshot tests (Roborazzi)
         id: PTS
         continue-on-error: true
-        run: ./gradlew testDemoDebugUnitTest
+        run: ./gradlew testDemoDebug
         env:
             DEVELOCITY_ACCESS_KEY: ${{ secrets.DV_ACCESS_KEY }}
