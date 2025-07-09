@@ -74,10 +74,10 @@ gcReport {
 
 
 allprojects {
-    dependencies {
-        add("testRuntimeOnly","org.junit.vintage:junit-vintage-engine:5.13.1")
-    }
     tasks.withType<Test>().configureEach {
+        dependencies {
+            add("testRuntimeOnly","org.junit.vintage:junit-vintage-engine:5.13.1")
+        }
         useJUnitPlatform()
         develocity.predictiveTestSelection {
             enabled.set(true)
