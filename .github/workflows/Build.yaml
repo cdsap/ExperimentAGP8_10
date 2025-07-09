@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - testing_robolectric_with_pts
+      - android_project_td_pts
   pull_request:
 
 concurrency:
@@ -58,6 +58,6 @@ jobs:
       - name: Run all local screenshot tests (Roborazzi)
         id: PTS
         continue-on-error: true
-        run: ./gradlew :app:testDemoDebugUnitTest
+        run: ./gradlew testDemoDebugUnitTest
         env:
             DEVELOCITY_ACCESS_KEY: ${{ secrets.DV_ACCESS_KEY }}

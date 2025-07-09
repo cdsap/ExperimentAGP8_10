@@ -29,6 +29,8 @@ buildscript {
         maven { url = uri("../nowinandroid-prebuilts/m2repository") }
     }
     dependencies {
+               classpath("com.appdynamics:appdynamics-gradle-plugin:25.2.0")
+
         classpath(libs.google.oss.licenses.plugin) {
             exclude(group = "com.google.protobuf")
         }
@@ -72,20 +74,20 @@ gcReport {
 
 
 allprojects {
+    dependencies {
+        add("testRuntimeOnly","org.junit.vintage:junit-vintage-engine:5.13.1")
+    }
     tasks.withType<Test>().configureEach {
         useJUnitPlatform()
-//        inputs.files("/Users/inakivillar/experiments/androidify/androidify/feature/creation/build/intermediates/apk_for_local_test/debugUnitTest/packageDebugUnitTestForUnitTest/apk-for-local-test.ap_")
-//        systemProperty("robolectric.logging.enabled","true")
-//        systemProperty("robolectric.logging","stdout")
-//
-//        systemProperty("g",
-//            project.relativePath("${project.layout.buildDirectory.get().asFile.toPath()}/file_log"))
+        develocity.predictiveTestSelection {
+            enabled.set(true)
+        }
         develocity.testDistribution {
             enabled.set(true)
             remoteExecutionPreferred.set(true)
             maxLocalExecutors.set(0)
-            //requirements.set(setOf("os=linux", "jdk=17"))
-        }
+            requirements.set(setOf("os=linux", "jdk=21"))
 
+        }
     }
 }

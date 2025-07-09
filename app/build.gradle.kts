@@ -133,7 +133,6 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test)
     androidTestImplementation(libs.hilt.android.testing)
     androidTestImplementation(libs.kotlin.test)
-    testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.13.1")
     baselineProfile(projects.benchmarks)
 }
 
