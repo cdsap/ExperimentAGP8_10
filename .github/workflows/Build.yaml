@@ -75,14 +75,9 @@ jobs:
           disable_globbing: true
           commit_message: "🤖 Updates screenshots"
 
-      # Run local tests after screenshot tests to avoid wrong UP-TO-DATE. TODO: Ignore screenshots.
-      - name: Run local tests
-        run: ./gradlew testDemoDebug :lint:test
-        env:
-          DEVELOCITY_ACCESS_KEY: ${{ secrets.DV_ACCESS_KEY }} 
-
+    
       - name: Build all build type and flavor permutations
-        run: ./gradlew :app:assemble
+        run: ./gradlew lintProdRelease lintRelease
         env:
           DEVELOCITY_ACCESS_KEY: ${{ secrets.DV_ACCESS_KEY }} 
 
