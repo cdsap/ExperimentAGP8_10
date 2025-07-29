@@ -1,3 +1,5 @@
+import com.gradle.develocity.agent.gradle.DevelocityConfiguration
+
 /*
  * Copyright 2021 The Android Open Source Project
  *
@@ -64,12 +66,13 @@ plugins {
     id("io.github.cdsap.kotlinprocess") version "0.1.7"
     id("io.github.cdsap.gradleprocess") version "0.1.3"
     id("io.github.cdsap.gcreport") version "0.1.0"
+    alias(libs.plugins.protobuf) apply false
 }
 
 gcReport {
     logs = listOf("gradle_gc.log", "kotlin_gc.log")
 }
-
+val a = develocity.buildScan
 
 allprojects {
     tasks.withType<Test>().configureEach {
@@ -88,4 +91,15 @@ allprojects {
         }
 
     }
+
+    tasks.withType<com.google.protobuf.gradle.GenerateProtoTask>().configureEach {
+        doLast {
+            a.value("$path", "${javaExecutablePath.get().toString()}")
+        }
+
+
+    }
 }
+
+
+
