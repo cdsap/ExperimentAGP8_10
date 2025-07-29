@@ -51,7 +51,7 @@ jobs:
           commit_message: "🤖 Updates baselines for Dependency Guard"
 
       - name: Start Build Process Watcher
-        uses: cdsap/build-process-watcher
+        uses: cdsap/build-process-watcher@v0.2
         with:
             interval: 5
 
